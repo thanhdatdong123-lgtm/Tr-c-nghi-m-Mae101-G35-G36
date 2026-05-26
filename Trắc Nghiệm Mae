@@ -1,0 +1,254 @@
+%!TEX program = xelatex
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2cm, top=2cm, bottom=2cm}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella}[
+    Extension=.otf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic
+]
+\setsansfont{Arial}[
+    Extension=.ttf,
+    UprightFont=*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic
+]
+\usepackage{vietnam}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+
+\newtcolorbox{mybox}[2][]{
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    fonttitle=\bfseries,
+    coltitle=black,
+    breakable,
+    title=#2,
+    #1
+}
+\newtcolorbox{definitionbox}[1][]{
+    colback=teal!5!white,
+    colframe=teal!70!black,
+    fonttitle=\bfseries,
+    breakable,
+    title=Định nghĩa,
+    #1
+}
+\newtcolorbox{tiptheorem}[1][]{
+    colback=yellow!10!white,
+    colframe=orange!70!black,
+    fonttitle=\bfseries,
+    breakable,
+    title=Ghi nhớ,
+    #1
+}
+\newtcolorbox{examplebox}[1][]{
+    colback=gray!5!white,
+    colframe=gray!50!black,
+    fonttitle=\bfseries,
+    breakable,
+    title=Ví dụ,
+    #1
+}
+\newtcolorbox{warningbox}[1][]{
+    colback=red!5!white,
+    colframe=red!70!black,
+    fonttitle=\bfseries,
+    breakable,
+    title=Lưu ý,
+    #1
+}
+\title{\textbf{MAE101: Giải tích cho Kỹ thuật}\\\Large{G35 – Điểm tới hạn, điểm cực trị, điểm uốn\\ G36 – Cực trị tương đối (Relative Extrema)}}
+\author{Dr. rer. nat. Mai Thế Duy\\ \texttt{Tài liệu biên soạn theo phương pháp DUYMT}}
+\date{\today}
+
+\begin{document}
+\maketitle
+\begin{center}
+    \rule{0.9\textwidth}{0.5pt}
+    \textit{``Đạo hàm xóa quá khứ, chỉ thấy hiện tại – Cực trị là nơi xu hướng đổi chiều.''}
+\end{center}
+\vspace{0.5cm}
+
+\section*{G35. Điểm tới hạn, điểm cực trị, và điểm uốn}
+\begin{definitionbox}
+    \textbf{Điểm tới hạn (Critical point)}: Cho hàm số \(f(x)\) xác định trên khoảng \((a,b)\). Điểm \(x_0 \in (a,b)\) được gọi là \textit{điểm tới hạn} nếu:
+    \[
+    f'(x_0) = 0 \quad \text{hoặc} \quad f'(x_0) \text{ không tồn tại.}
+    \]
+    Điểm tới hạn là \textit{ứng viên} cho cực trị nhưng chưa chắc là cực trị.
+\end{definitionbox}
+
+\begin{definitionbox}
+    \textbf{Điểm cực trị (Extrema)}:
+    \begin{itemize}
+        \item \(x_0\) là điểm \textbf{cực đại địa phương} nếu tồn tại khoảng lân cận \(I\) chứa \(x_0\) sao cho \(f(x) \le f(x_0)\) với mọi \(x \in I\).
+        \item \(x_0\) là điểm \textbf{cực tiểu địa phương} nếu \(f(x) \ge f(x_0)\) với mọi \(x \in I\).
+    \end{itemize}
+\end{definitionbox}
+
+\begin{tiptheorem}
+    \textbf{Định lý Fermat (Điều kiện cần)}: Nếu \(f\) đạt cực trị tại \(x_0\) và \(f\) khả vi tại \(x_0\) thì \(f'(x_0)=0\).
+    \begin{center}
+        \textit{\textcolor{blue}{Cực trị khả vi ⇒ đạo hàm bằng 0.}}
+    \end{center}
+\end{tiptheorem}
+
+\begin{definitionbox}
+    \textbf{Điểm uốn (Inflection point)}: Điểm \(x_0\) được gọi là điểm uốn của đồ thị \(y=f(x)\) nếu:
+    \begin{enumerate}
+        \item \(f\) liên tục tại \(x_0\).
+        \item Độ lõm (concavity) của đồ thị thay đổi khi đi qua \(x_0\) (tức \(f''(x)\) đổi dấu).
+    \end{enumerate}
+    Nếu \(f''(x_0)=0\) và \(f''(x)\) đổi dấu quanh \(x_0\) thì \(x_0\) là điểm uốn.
+\end{definitionbox}
+
+\begin{mybox}[colback=cyan!5!white]{Phân biệt nhanh}
+    \begin{tabular}{p{3.5cm}|p{4.5cm}|p{5cm}}
+        \toprule
+        \textbf{Điểm tới hạn} & \textbf{Điểm cực trị} & \textbf{Điểm uốn} \\
+        \midrule
+        \(f'(x_0)=0\) hoặc không xác định & Có thể là tới hạn + đạo hàm đổi dấu & \(f''(x_0)=0\) và đổi dấu \\
+        Chưa chắc cực trị & Luôn là điểm tới hạn (nếu khả vi) & Có thể không phải tới hạn \\
+        Ứng viên & Giá trị lớn/nhỏ địa phương & Thay đổi độ lõm \\
+        \bottomrule
+    \end{tabular}
+\end{mybox}
+
+\begin{examplebox}
+    \textbf{Ví dụ 1:} \(f(x) = x^3 - 6x^2 + 9x + 1\).
+    \begin{enumerate}
+        \item \(f'(x)=3x^2-12x+9 = 3(x-1)(x-3)=0 \Rightarrow x=1,\; x=3\) (điểm tới hạn).
+        \item \(f''(x)=6x-12\); \(f''(1)=-6<0\) ⇒ cực đại tại \(x=1\). \(f''(3)=6>0\) ⇒ cực tiểu tại \(x=3\).
+        \item Giải \(f''(x)=0 \Rightarrow x=2\), \(f''(x)\) đổi dấu từ âm sang dương ⇒ điểm uốn tại \(x=2\).
+    \end{enumerate}
+    \textbf{Mẹo:} Đối với hàm bậc 3, điểm uốn là trung điểm của hai điểm cực trị.
+\end{examplebox}
+
+\begin{examplebox}
+    \textbf{Ví dụ 2:} \(y = |x|\).
+    \begin{itemize}
+        \item Tại \(x=0\): đạo hàm không tồn tại \(\Rightarrow\) điểm tới hạn.
+        \item Hàm đạt cực tiểu tại \(x=0\) (giá trị nhỏ nhất). Đây không phải điểm uốn.
+    \end{itemize}
+\end{examplebox}
+
+\begin{warningbox}
+    \textbf{Cảnh báo:}
+    \begin{itemize}
+        \item Không phải mọi điểm tới hạn đều là cực trị. Ví dụ \(y=x^3\) có \(f'(0)=0\) nhưng không có cực trị (điểm yên ngựa).
+        \item Điều kiện \(f''(x_0)=0\) chưa chắc là điểm uốn. Phải xét dấu \(f''(x)\) trước và sau.
+    \end{itemize}
+\end{warningbox}
+
+\section*{G36. Cực trị tương đối (Relative Extrema)}
+
+\begin{mybox}[colback=green!5!white]{Bài kiểm tra đạo hàm bậc nhất – First Derivative Test}
+    Giả sử \(x_0\) là điểm tới hạn của hàm liên tục \(f\).
+    \begin{itemize}
+        \item Nếu \(f'(x)\) đổi dấu từ \textbf{dương sang âm} khi qua \(x_0\) ⇒ \(x_0\) là \textbf{cực đại địa phương}.
+        \item Nếu \(f'(x)\) đổi dấu từ \textbf{âm sang dương} ⇒ \(x_0\) là \textbf{cực tiểu địa phương}.
+        \item Nếu \(f'(x)\) không đổi dấu ⇒ \(x_0\) \textbf{không là cực trị}.
+    \end{itemize}
+\end{mybox}
+
+\begin{mybox}[colback=green!5!white]{Bài kiểm tra đạo hàm bậc hai – Second Derivative Test}
+    Cho \(f'(x_0)=0\) và \(f''(x_0)\) tồn tại.
+    \[
+    \begin{cases}
+        f''(x_0) > 0 & \Rightarrow \text{cực tiểu địa phương}\\
+        f''(x_0) < 0 & \Rightarrow \text{cực đại địa phương}\\
+        f''(x_0) = 0 & \Rightarrow \text{chưa kết luận, cần xét dấu đạo hàm bậc nhất}
+    \end{cases}
+    \]
+\end{mybox}
+
+\begin{examplebox}
+    \textbf{Bài tập trắc nghiệm điển hình:}
+    \begin{enumerate}
+        \item Tìm số điểm cực trị của \(f(x)=x^4-2x^2+3\).
+        \item Cho \(f'(x)=x(x-2)^3\). Hãy xác định tính chất cực trị tại \(x=0\) và \(x=2\).
+    \end{enumerate}
+    \textbf{Giải:}
+    \begin{enumerate}
+        \item \(f'(x)=4x^3-4x=4x(x-1)(x+1)=0\) ⇒ 3 điểm tới hạn. Đạo hàm đổi dấu qua cả ba ⇒ 3 cực trị.
+        \item \(x=0\): f' đổi từ dương sang âm ⇒ cực đại. \(x=2\): f' không đổi dấu (bội chẵn) ⇒ không cực trị.
+    \end{enumerate}
+\end{examplebox}
+
+\begin{tiptheorem}
+    \textbf{Phương pháp tìm cực trị (Relative Extrema) nhanh:}
+    \begin{enumerate}
+        \item Tìm tập xác định.
+        \item Tính \(f'(x)\) và giải \(f'(x)=0\), tìm điểm không khả vi.
+        \item Lập bảng xét dấu \(f'(x)\) hoặc dùng \(f''(x)\) nếu thuận tiện.
+        \item Kết luận: đổi dấu ⇒ cực trị; giữ nguyên dấu ⇒ không.
+    \end{enumerate}
+    \textit{Áp dụng thực tế:} Trong bài toán tối ưu (optimization), đạo hàm bậc nhất giúp tìm điểm dừng, đạo hàm bậc hai xác định đó là max hay min.
+\end{tiptheorem}
+
+\begin{examplebox}
+    \textbf{Ví dụ tổng hợp:} Xét \(f(x)=x^3 - 3x^2 - 9x + 5\).
+    \begin{itemize}
+        \item \(f'(x)=3x^2-6x-9 = 3(x^2-2x-3)=3(x-3)(x+1)=0 \Rightarrow x=-1, x=3\).
+        \item \(f''(x)=6x-6\): \(f''(-1)=-12<0 \Rightarrow\) cực đại tại \(x=-1\); \(f''(3)=12>0 \Rightarrow\) cực tiểu tại \(x=3\).
+        \item Giá trị cực đại \(f(-1)=10\), cực tiểu \(f(3)=-22\).
+    \end{itemize}
+    \textbf{Ứng dụng:} Vẽ đồ thị nhanh bằng cách xác định cực trị và tính lõm.
+\end{examplebox}
+
+\begin{warningbox}
+    \textbf{Sai lầm thường gặp:}
+    \begin{itemize}
+        \item Nhầm lẫn điểm tới hạn với điểm cực trị.
+        \item Quên xét điểm đạo hàm không xác định (hàm chứa căn, giá trị tuyệt đối, phân thức có mẫu bằng 0).
+        \item Chỉ dùng \(f''(x)\) mà không kiểm tra sự tồn tại của đạo hàm bậc hai.
+    \end{itemize}
+\end{warningbox}
+
+\section*{Bảng tổng kết các dạng câu hỏi trắc nghiệm G35-G36}
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{4cm}|p{9cm}|}
+\hline
+\textbf{Dạng bài} & \textbf{Cách giải nhanh} \\
+\hline
+Tìm số điểm tới hạn & Giải \(f'(x)=0\) và tìm điểm không khả vi, loại điểm ngoài TXĐ \\
+\hline
+Xác định cực trị & Lập bảng biến thiên hoặc dùng \(f''(x)\) \\
+\hline
+Điểm uốn & Tính \(f''(x)\), giải \(f''(x)=0\) và kiểm tra đổi dấu \\
+\hline
+Tìm m để hàm có cực trị thỏa điều kiện & Dùng Viet / cô lập tham số trong \(f'(x)=0\) \\
+\hline
+Bài toán liên quan đến đồ thị & Đạo hàm bằng 0: tiếp tuyến ngang; điểm uốn: đổi chiều lõm \\
+\hline
+\end{tabular}
+\caption{Các dạng bài trắc nghiệm phổ biến}
+\end{table}
+
+\begin{center}
+    \rule{0.8\textwidth}{0.3pt}
+    \textbf{Câu thần chú DUYMT:} \\
+    \textit{``Điểm tới hạn – nơi đạo hàm về không,} \\
+    \textit{Cực trị đổi chiều, điểm uốn lõm thay lòng.} \\
+    \textit{Xét dấu mà hành, đừng vội kết luận,} \\
+    \textit{Bảng biến thiên – chìa khóa vàng trong tay.''}
+\end{center}
+
+\vspace{1cm}
+\begin{flushright}
+    \textit{Tài liệu được biên soạn dựa trên bài giảng MAE101 - Toán cho Kỹ sư.} \\
+    \textbf{Dr. rer. nat. Mai Thế Duy} \quad \text{Harnessing AI theo triết lý sư phạm DUYMT}
+\end{flushright}
+\end{document}
